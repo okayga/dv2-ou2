@@ -4,7 +4,8 @@ freqtable freqtable_create() {
 
   freqtable ft = malloc(sizeof(freqtable));
   for (int i = 0; i < 256; i++) {
-    ft[i][1] =
+    ft.characters[i] = (char)i;
+    ft.frequency[i] = 0;
   }
 }
 
