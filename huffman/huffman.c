@@ -8,3 +8,9 @@ bool validateInput {
 
     return true;
 }
+
+void charFrequency(freqtable *ft, FILE *in_file) {
+
+    in_file = fopen()
+
+}
