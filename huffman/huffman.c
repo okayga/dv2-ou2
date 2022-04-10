@@ -44,7 +44,7 @@ void charFrequency(freqtable *ft, const char *filename) {
 
 pqueue *FreqTabletoPQueue(freqtable *ft) {
 
-    for .
+    for
 }
 
 int main() {
