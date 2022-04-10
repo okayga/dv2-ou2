@@ -1,10 +1,30 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "freqtable.c"
+#include "pqueue.c"
+#include "bit_buffer.c"
 
-bool validateInput {
 
-    char current = f
+bool validateInput (const char *filename) {
+
+    FILE *filePtr;
+    char current;
+
+    filePtr = fopen(filename, "r");
+    if (filePtr == NULL) {
+        printf("Couldn't find file\n");
+    } else {
+        while ((ch = fgetc(filePtr)) != EOF) {
+            if (ch > 0xff || ch < 0x00) {
+                printf("File contains characters outside of UTF-8\n");
+                fclose(filePtr);
+                return false;
+            }
+        }
+    }
+
+    fclose(filePtr);
 
     return true;
 }
@@ -13,4 +33,17 @@ void charFrequency(freqtable *ft, FILE *in_file) {
 
     in_file = fopen()
 
+}
+
+pqueue *FreqTabletoPQueue(freqtable *ft) {
+
+    for 
+}
+
+int main() {
+
+
+
+
+    return 0;
 }
