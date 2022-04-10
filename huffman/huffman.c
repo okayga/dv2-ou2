@@ -25,14 +25,21 @@ bool validateInput (const char *filename) {
     }
 
     fclose(filePtr);
-
     return true;
 }
 
-void charFrequency(freqtable *ft, FILE *in_file) {
+void charFrequency(freqtable *ft, const char *filename) {
 
-    in_file = fopen()
+    FILE *filePtr;
+    char current;
 
+    filePtr = fopen(filename, "r");
+    while ((ch = fgetc(filePtr)) != EOF) {
+        ft.frequency[(int)ch]++;
+    }
+
+    ft.frequency[(int)EOF]++;
+    fclose(filePtr);
 }
 
 pqueue *FreqTabletoPQueue(freqtable *ft) {
