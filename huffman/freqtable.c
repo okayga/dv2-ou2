@@ -23,6 +23,9 @@ void freqtable_add_freq(freqtable *ft, int index) {
     ft.frequency[index]++;
 }
 
+void freqtable_sort (freqtable *ft) {
+
+}
 void freqtable_destroy(freqtable *ft) {
 
     free(ft);
