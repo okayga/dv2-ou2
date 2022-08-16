@@ -1,15 +1,18 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
-#include "freqtable.c"
-#include "pqueue.c"
-#include "bit_buffer.c"
+#include "pqueue.h"
+#include "bit_buffer.h"
+#include "huffman.h"
+#include "freqtable.h"
 
 
 bool validateInput (const char *filename) {
 
     FILE *filePtr;
-    char current;
+    char ch;
 
     filePtr = fopen(filename, "r");
     if (filePtr == NULL) {
@@ -17,7 +20,6 @@ bool validateInput (const char *filename) {
     } else {
         while ((ch = fgetc(filePtr)) != EOF) {
             if (ch > 0xff || ch < 0x00) {
-                printf("File contains characters outside of UTF-8\n");
                 fclose(filePtr);
                 return false;
             }
@@ -28,27 +30,29 @@ bool validateInput (const char *filename) {
     return true;
 }
 
-void charFrequency(freqtable *ft, const char *filename) {
+int main(int argc, char *argv[]) {
 
-    FILE *filePtr;
-    char current;
-
-    filePtr = fopen(filename, "r");
-    while ((ch = fgetc(filePtr)) != EOF) {
-        ft.frequency[(int)ch]++;
+    if ((strcmp(argv[1], "-encode") != 0 && strcmp(argv[1], "-decode") != 0) ||
+    argv[2] == NULL || argv[3] == NULL || argv[4] == NULL || (argc != 5)) {
+        printf("USAGE:\n");
+        printf("%s [OPTION] [FILE0] [FILE1] [FILE2]\n", argv[1])
+        printf("Options:\n");
+        printf("-encode encodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
+        printf("-decode decodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
+        return 0;
     }
 
-    ft.frequency[(int)EOF]++;
-    fclose(filePtr);
-}
+    FILE *freq_file, *text_file, *output_file;
 
-pqueue *FreqTabletoPQueue(freqtable *ft) {
-
-    for
-}
-
-int main() {
-
+    if (!validateInput(file0)) {
+        printf("FILE0 contains symbols outside of UTF-8");
+    }
+    if (!validateInput(file1)) {
+        printf("FILE1 contains symbols outside of UTF-8");
+    }
+ 
+    freqtable *ft = frequencyCount(file0);
+    pqueue *pq = 
 
 
 
