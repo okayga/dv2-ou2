@@ -4,13 +4,7 @@
 #include "pqueue.h"
 #include "bit_buffer.h"
 
-// A internally used frequency table to construct the trie
-struct freqtable {
-    int *freq;
-    char *symbol;
-}
 
-struct 
 bool validateInput (const char *filename);
 
 /**

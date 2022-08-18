@@ -11,13 +11,11 @@
  */
 freqtable *frequencyCount(const char *filename) {
 
-    freqtable *ft = malloc(sizeof(freqtable));
-    ft.freq = calloc(256, sizeof(int))
-    ft.symbol = malloc(256*sizeof(char));
+    freqtable *ft = calloc(256, sizeof(freqtable));
 
     // Initiate the symbol array with every UTF-8 char
     for (int i = 0; i < 256; i++) {
-        ft.symbol[i] = (char)i;
+        ft[i].symbol = (char)i;
     }
 
     FILE *filePtr;
@@ -27,7 +25,7 @@ freqtable *frequencyCount(const char *filename) {
     filePtr = fopen(filename, "r");
     while ((ch = fgetc(filePtr)) != EOF) {
         n = (int)ch;
-        ft.freq[n]++;
+        ft[n].freq++;
     }
 
     return ft;

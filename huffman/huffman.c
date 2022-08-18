@@ -7,6 +7,7 @@
 #include "bit_buffer.h"
 #include "huffman.h"
 #include "freqtable.h"
+#include "htrie.h"
 
 
 bool validateInput (const char *filename) {
@@ -26,7 +27,6 @@ bool validateInput (const char *filename) {
         }
     }
 
-    fclose(filePtr);
     return true;
 }
 
@@ -43,6 +43,9 @@ int main(int argc, char *argv[]) {
     }
 
     FILE *freq_file, *text_file, *output_file;
+    freq_file = fopen(argv[2], "r");
+    text_file = fopen(argv[3], "r");
+    output_file = fopen(argv[4], "w");
 
     if (!validateInput(file0)) {
         printf("FILE0 contains symbols outside of UTF-8");
@@ -50,9 +53,10 @@ int main(int argc, char *argv[]) {
     if (!validateInput(file1)) {
         printf("FILE1 contains symbols outside of UTF-8");
     }
- 
+
+
     freqtable *ft = frequencyCount(file0);
-    pqueue *pq = 
+    pqueue *pq = freqtableToPq(ft);
 
 
 
