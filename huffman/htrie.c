@@ -38,9 +38,6 @@ node *pqToTrie(pqueue *pq) {
         trienode->right_child = second;
         pqueue_insert(pq, trienode);
     }
-
-    node *trie = createNode(0, 0)
-    return trie;
 }
 
 bool leafNode(node *n) {

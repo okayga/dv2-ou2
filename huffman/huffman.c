@@ -56,28 +56,20 @@ int main(int argc, char *argv[]) {
     fseek(output_file, 0, SEEK_END);
     int size = ftell(output_file);
     if (size != 0) {
-        printf("FILE2 is not empty. Please empty before rerunning huffman.\n");
+        printf("FILE2 is not empty. Please empty before rerunning this program\n");
         return 1;
     }
 
     freqtable *ft = frequencyCount(file0);
     pqueue *pq = freqtableToPq(ft);
     node *trie = pqToTrie(pq);
-    char option; 
+    table *t = initiateTable();
+    bit_buffer *codes = bit_buffer_empty();
 
     if (strcmp(argv[1], "-encode") == 0) {
-        option = 'e';
+        encode()
     } else {
-        option = 'd';
-    }
-
-     switch (option) {
-        case ('e') {
-            encode();
-        }
-        case ('d') {
-            decode();
-        }
+        decode();
     }
 
     freqtableKill(ft);
