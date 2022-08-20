@@ -1,3 +1,6 @@
+#include "htable.h"
+#include "bit_buffer.h"
+
 table *initiateTable () {
 
     table *t = malloc(256*sizeof(table));
@@ -9,6 +12,7 @@ table *initiateTable () {
 }
 
 void trieToTable (node *trie, table t, bit_buffer *bitBuffer) {
+
     if (isLeaf(trie) == 0) {
         t[(int)trie->val].symbol = trie->symbol;
         t[(int)trie->val].codes = bitBuffer;
@@ -26,6 +30,7 @@ void trieToTable (node *trie, table t, bit_buffer *bitBuffer) {
 }
 
 void killTable(table *t) {
+
     for (int i = 0; i < 256; i++) {
         bit_buffer_free(t->codes[i]);
     }

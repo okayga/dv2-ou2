@@ -32,6 +32,7 @@ freqtable *frequencyCount(const char *filename) {
 }
 
 pqueue *freqtableToPq (freqtable *ft) {
+
     pqueue *pq = pqueue_empty(lessThan);
     node *e = malloc(sizeof(node));
 
@@ -45,6 +46,7 @@ pqueue *freqtableToPq (freqtable *ft) {
 }
 
 void freqtableKill(freqtable *ft) {
+    
     free(ft->freq);
     free(ft->symbol);
     free(ft);

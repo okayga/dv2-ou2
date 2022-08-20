@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 
 #include "pqueue.h"
@@ -8,7 +7,9 @@
 #include "huffman.h"
 #include "freqtable.h"
 #include "htrie.h"
-
+#include "htable.h"
+#include "encode.h"
+#include "decode.h"
 
 bool validateInput (const char *filename) {
 

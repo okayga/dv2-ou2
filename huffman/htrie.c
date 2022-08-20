@@ -6,6 +6,7 @@
 // Internal function for the priority queue. If the return value is > 0
 // elem1 is larger, and if return value < 0 then elem2 is larger.
 int lessThan(void *elem1, void *elem2) {
+
     return ((node *)elem1)->prio - ((node *)elem2)->prio;
 }
 
@@ -41,6 +42,7 @@ node *pqToTrie(pqueue *pq) {
 }
 
 bool leafNode(node *n) {
+
     if (n->left_child == NULL && n->right_child == NULL) {
         return true;
     }
@@ -48,6 +50,7 @@ bool leafNode(node *n) {
 }
 
 void killTrie(node *trie) {
+    
     if (!isLeaf(trie)) {
         killTrie(trie->left_child);
         killTrie(trie->right_child);
