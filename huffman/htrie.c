@@ -20,23 +20,26 @@ node *createNode(char val, int prio) {
     return n;
 }
 
-pqueue *freqtableToPq (freqtable *ft) {
-    pqueue *pq = pqueue_empty(lessThan);
-    node *e = malloc(sizeof(node));
-
-    for (int i = 0; i < 256; i++) {
-        e->val = ft[i].symbol;
-        e->prio = ft[i].freq;
-        pqueue_insert(pq, e);
-    }
-
-    return pq;
-}
-
 node *pqToTrie(pqueue *pq) {
 
+    while (!pqueue_is_empty(pq)) {
+        node *first = pqueue_inspect_first(pq);
+        pqueue_delete_first(pq);
+        if (pqueue_is_empty(pq)) {
+            return first;
+        }
 
+        node *second = pqueue_inspect_first(pq);
+        pqueue_delete_first(pq);
 
+        int totalPrio = first->prio + second->prio;
+        node *node = createNode(-1, totalPrio);
+        trienode->left_child = first;
+        trienode->right_child = second;
+        pqueue_insert(pq, trienode);
+    }
+
+    node *trie = createNode(0, 0)
     return trie;
 }
 

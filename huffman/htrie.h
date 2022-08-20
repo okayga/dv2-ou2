@@ -9,14 +9,11 @@
 typedef struct Node {
     char val;
     int prio;
-    struct node *left_child;
-    struct node *right_child;
+    node *left_child;
+    node *right_child;
 } node;
 
-
 node *createNode(int val, int prio);
-
-pqueue *freqtableToPq (freqtable *ft);
 
 node *pqToTrie(pqueue *pq);
 

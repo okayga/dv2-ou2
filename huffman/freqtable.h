@@ -7,4 +7,6 @@ struct freqtable {
 
 freqtable *frequencyCount(const char *filename);
 
+pqueue *freqtableToPq (freqtable *ft);
+
 void freqtableKill(freqtable *ft)

@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         printf("Options:\n");
         printf("-encode encodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
         printf("-decode decodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
-        return 0;
+        return 1;
     }
 
     FILE *freq_file, *text_file, *output_file;
@@ -53,12 +53,39 @@ int main(int argc, char *argv[]) {
     if (!validateInput(file1)) {
         printf("FILE1 contains symbols outside of UTF-8");
     }
-
+    fseek(output_file, 0, SEEK_END);
+    int size = ftell(output_file);
+    if (size != 0) {
+        printf("FILE2 is not empty. Please empty before rerunning huffman.\n");
+        return 1;
+    }
 
     freqtable *ft = frequencyCount(file0);
     pqueue *pq = freqtableToPq(ft);
+    node *trie = pqToTrie(pq);
+    char option; 
 
+    if (strcmp(argv[1], "-encode") == 0) {
+        option = 'e';
+    } else {
+        option = 'd';
+    }
 
+     switch (option) {
+        case ('e') {
+            encode();
+        }
+        case ('d') {
+            decode();
+        }
+    }
 
+    freqtableKill(ft);
+    pqueue_kill(pq);
+    killTrie(trie);
+
+    fclose(freq_file);
+    fclose(text_file);
+    fclose(output_file);
     return 0;
 }
