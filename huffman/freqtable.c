@@ -1,15 +1,16 @@
-#include "freqtable.h"
+#include <stdlib.h>
 
-/**
- * @brief Creates a frequency table where the frequency
- * of every UTF-8 character in a text file is calculated,
- * and returns the frequency table. The frequency table
- * must later be deallocated.
- * 
- * @param filename - The filename of the file to be analyzed.
- * @return freqtable* - A frequency table.
- */
-freqtable *frequencyCount(const char *filename) {
+#include "freqtable.h"
+#include "htrie.h"
+
+/* Internal function for making the priority queue. If the return value is > 0 
+elem1 is larger, and if return value < 0 then elem2 is larger. */
+int lessThan(void *elem1, void *elem2) {
+
+    return ((node *)elem1)->prio - ((node *)elem2)->prio;
+}
+
+freqtable *frequencyCount(FILE *freq_file) {
 
     freqtable *ft = calloc(256, sizeof(freqtable));
 
@@ -18,11 +19,10 @@ freqtable *frequencyCount(const char *filename) {
         ft[i].symbol = (char)i;
     }
 
-    FILE *filePtr;
+    FILE *filePtr = freq_file;
     char ch;
     int n;
 
-    filePtr = fopen(filename, "r");
     while ((ch = fgetc(filePtr)) != EOF) {
         n = (int)ch;
         ft[n].freq++;
@@ -46,8 +46,6 @@ pqueue *freqtableToPq (freqtable *ft) {
 }
 
 void freqtableKill(freqtable *ft) {
-    
-    free(ft->freq);
-    free(ft->symbol);
+
     free(ft);
 }

@@ -1,18 +1,13 @@
+#include <stdlib.h>
+
 #include "htrie.h"
 #include "pqueue.h"
 #include "bit_buffer.h"
 
 
-// Internal function for the priority queue. If the return value is > 0
-// elem1 is larger, and if return value < 0 then elem2 is larger.
-int lessThan(void *elem1, void *elem2) {
-
-    return ((node *)elem1)->prio - ((node *)elem2)->prio;
-}
-
 node *createNode(char val, int prio) {
 
-    node *n = calloc(1, sizeof(node));
+    node *n = malloc(sizeof(node));
     n->val = val;
     n->prio = prio;
     n->left_child = NULL;
@@ -34,11 +29,15 @@ node *pqToTrie(pqueue *pq) {
         pqueue_delete_first(pq);
 
         int totalPrio = first->prio + second->prio;
-        node *node = createNode(-1, totalPrio);
-        trienode->left_child = first;
-        trienode->right_child = second;
-        pqueue_insert(pq, trienode);
+        node *trie = createNode(-1, totalPrio);
+        trie->left_child = first;
+        trie->right_child = second;
+        pqueue_insert(pq, trie);
     }
+
+    // If pqueue is empty from the start, then return node with no prio
+    node *empty_trie = createNode(0, 0);
+    return empty_trie;
 }
 
 bool leafNode(node *n) {
@@ -51,7 +50,7 @@ bool leafNode(node *n) {
 
 void killTrie(node *trie) {
     
-    if (!isLeaf(trie)) {
+    if (!leafNode(trie)) {
         killTrie(trie->left_child);
         killTrie(trie->right_child);
     }
