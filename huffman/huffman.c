@@ -11,37 +11,44 @@
 #include "encode.h"
 #include "decode.h"
 
+void usageHelp() {
+    printf("USAGE:\n");
+    printf("./huffman [OPTION] [FILE0] [FILE1] [FILE2]\n");
+    printf("Options:\n");
+    printf("-encode encodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
+    printf("-decode decodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
+}
+
 bool validateInput (FILE *file) {
 
-    FILE *filePtr = file;
     char ch;
 
-    while ((ch = fgetc(filePtr)) != EOF) {
+    while ((ch = fgetc(file)) != EOF) {
         if (ch > 0xff || ch < 0x00) {
-            fclose(filePtr);
+            fclose(file);
             return false;
         }
     }
-
     return true;
 }
 
 int main(int argc, char *argv[]) {
 
+    // To avoid segmentation faults when only the run command is entered
+    if (argc == 1) {
+        usageHelp();
+        return 1;
+    }
     if ((strcmp(argv[1], "-encode") != 0 && strcmp(argv[1], "-decode") != 0) ||
     argv[2] == NULL || argv[3] == NULL || argv[4] == NULL || (argc != 5)) {
-        printf("USAGE:\n");
-        printf("%s [OPTION] [FILE0] [FILE1] [FILE2]\n", argv[1]);
-        printf("Options:\n");
-        printf("-encode encodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
-        printf("-decode decodes FILE1 according to frequence analysis done on FILE0. Stores the result in FILE2\n");
+        usageHelp();
         return 1;
     }
 
     FILE *freq_file, *text_file, *output_file;
     freq_file = fopen(argv[2], "r");
     text_file = fopen(argv[3], "r");
-    output_file = fopen(argv[4], "w");
+    output_file = fopen(argv[4], "r+");
 
     if (!validateInput(freq_file)) {
         printf("FILE0 contains symbols outside of UTF-8");
@@ -51,10 +58,11 @@ int main(int argc, char *argv[]) {
         printf("FILE1 contains symbols outside of UTF-8");
         return 1;
     }
-    fseek(output_file, 0, SEEK_END);
+    fseek(output_file, 0L, SEEK_END);
     int size = ftell(output_file);
     if (size != 0) {
-        printf("FILE2 is not empty. Please empty before rerunning this program\n");
+        printf("FILE2 is not empty. Please empty before rerunning this program.\n");
+        fclose(output_file);
         return 1;
     }
 
@@ -62,15 +70,18 @@ int main(int argc, char *argv[]) {
     pqueue *pq = freqtableToPq(ft);
     node *trie = pqToTrie(pq);
     table *t = initiateTable();
-    bit_buffer *codes = bit_buffer_empty();
-    trieToTable(trie, t, codes);
+
+    bit_buffer *empty_buffer = bit_buffer_empty();
+    trieToTable(trie, t, empty_buffer);
+    bit_buffer_print(t[80].codes);
+    bit_buffer_free(empty_buffer);
 
     if (strcmp(argv[1], "-encode") == 0) {
         /* This has to be done before entering the encode function to be able to
         access argv[3] */
-        fseek(text_file, 0, SEEK_END);
-        printf("%ld bytes read from %s.", ftell(text_file), argv[3]);
-        fseek(text_file, 0, SEEK_SET);
+        fseek(text_file, 0L, SEEK_END);
+        printf("%ld bytes read from %s.\n", ftell(text_file), argv[3]);
+        rewind(text_file);
 
         encode(t, text_file, output_file);
     } else {
@@ -81,7 +92,6 @@ int main(int argc, char *argv[]) {
     pqueue_kill(pq);
     killTrie(trie);
     killTable(t);
-    bit_buffer_free(codes);
 
     fclose(freq_file);
     fclose(text_file);

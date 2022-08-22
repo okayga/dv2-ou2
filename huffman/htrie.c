@@ -4,40 +4,32 @@
 #include "pqueue.h"
 #include "bit_buffer.h"
 
-
-node *createNode(char val, int prio) {
-
-    node *n = malloc(sizeof(node));
-    n->val = val;
-    n->prio = prio;
-    n->left_child = NULL;
-    n->right_child = NULL;
-
-    return n;
-}
-
 node *pqToTrie(pqueue *pq) {
-
     while (!pqueue_is_empty(pq)) {
-        node *first = pqueue_inspect_first(pq);
+        node *first_node = pqueue_inspect_first(pq);
         pqueue_delete_first(pq);
         if (pqueue_is_empty(pq)) {
-            return first;
+            return first_node;
         }
 
-        node *second = pqueue_inspect_first(pq);
+        node *second_node = pqueue_inspect_first(pq);
         pqueue_delete_first(pq);
 
-        int totalPrio = first->prio + second->prio;
-        node *trie = createNode(-1, totalPrio);
-        trie->left_child = first;
-        trie->right_child = second;
+        node *trie = malloc(1*sizeof(node));
+        trie->prio = (first_node->prio) + (second_node->prio);
+        // All parent nodes (non-leaf nodes) are given -1
+        trie->val = -1;
+        trie->left_child = first_node;
+        trie->right_child = second_node;
         pqueue_insert(pq, trie);
     }
 
-    // If pqueue is empty from the start, then return node with no prio
-    node *empty_trie = createNode(0, 0);
-    return empty_trie;
+    // If pqueue is empty from the start then return an empty node
+    node *emptyTrie = malloc(1*sizeof(node));
+    emptyTrie->prio = 0;
+    emptyTrie->val = -1;
+    
+    return emptyTrie;
 }
 
 bool leafNode(node *n) {
@@ -50,7 +42,7 @@ bool leafNode(node *n) {
 
 void killTrie(node *trie) {
     
-    if (!leafNode(trie)) {
+    if (leafNode(trie) == false) {
         killTrie(trie->left_child);
         killTrie(trie->right_child);
     }

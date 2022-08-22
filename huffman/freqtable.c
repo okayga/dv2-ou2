@@ -19,22 +19,22 @@ freqtable *frequencyCount(FILE *freq_file) {
         ft[i].symbol = (char)i;
     }
 
-    FILE *filePtr = freq_file;
     char ch;
-    int n;
-
-    while ((ch = fgetc(filePtr)) != EOF) {
-        n = (int)ch;
-        ft[n].freq++;
+    while ((ch = fgetc(freq_file)) != EOF) {
+        ft[(int)ch].freq++;
     }
 
+    // Don't forget the EOF!
+    ft[4].freq++;
     return ft;
 }
 
 pqueue *freqtableToPq (freqtable *ft) {
 
     pqueue *pq = pqueue_empty(lessThan);
-    node *e = malloc(sizeof(node));
+    node *e = calloc(1, sizeof(node));
+    e->left_child = NULL;
+    e->right_child = NULL;
 
     for (int i = 0; i < 256; i++) {
         e->val = ft[i].symbol;
@@ -42,6 +42,7 @@ pqueue *freqtableToPq (freqtable *ft) {
         pqueue_insert(pq, e);
     }
 
+    free(e);
     return pq;
 }
 
