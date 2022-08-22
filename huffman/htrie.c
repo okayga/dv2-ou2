@@ -40,7 +40,7 @@ node *pqToTrie(pqueue *pq) {
         }
 
         trie = malloc(sizeof(node));
-        trie->prio = (first_node->prio) + (second_node->prio);
+        trie->prio = first_node->prio+second_node->prio;
         // All parent nodes (non-leaf nodes) are given #
         trie->val = '#';
         trie->left_child = first_node;
@@ -53,7 +53,7 @@ node *pqToTrie(pqueue *pq) {
 
 bool leafNode(node *n) {
 
-    if ((int)n->val > -128 && (int)n->val < 128) {
+    if ((int)n->val >= 0 && (int)n->val < 256) {
         if (n->left_child == NULL && n->right_child == NULL) {
         return true;
         }
@@ -64,10 +64,14 @@ bool leafNode(node *n) {
 void killTrie(node *trie) {
 
     if (leafNode(trie) == false) {
+        if (trie->left_child != NULL) {
         killTrie(trie->left_child);
-        killTrie(trie->right_child);
-    }
+        }
+        if (trie->left_child != NULL) {
+          killTrie(trie->right_child);
+        }
     free(trie);
+	}
 }
 
 void printTrie(node *trie, int level) {

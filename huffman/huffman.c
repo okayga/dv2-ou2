@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     FILE *freq_file, *text_file, *output_file;
     freq_file = fopen(argv[2], "r");
     text_file = fopen(argv[3], "r");
-    output_file = fopen(argv[4], "r+");
+    output_file = fopen(argv[4], "w");
 
     if (!validateInput(freq_file)) {
         printf("FILE0 contains symbols outside of UTF-8");
@@ -60,13 +60,7 @@ int main(int argc, char *argv[]) {
         printf("FILE1 contains symbols outside of UTF-8");
         return 1;
     }
-    fseek(output_file, 0L, SEEK_END);
-    int size = ftell(output_file);
-    if (size != 0) {
-        printf("FILE2 is not empty. Please empty before rerunning this program.\n");
-        fclose(output_file);
-        return 1;
-    }
+
 
     freqtable *ft = frequencyCount(freq_file);
     printFTable(ft);

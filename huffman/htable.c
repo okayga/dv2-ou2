@@ -7,7 +7,7 @@
 table *initiateTable () {
 
     table *t = calloc(256, sizeof(table));
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i <= 255; i++) {
         t[i].codes = bit_buffer_empty();
     }
 
@@ -39,7 +39,7 @@ void trieToTable (node *trie, table *t, bit_buffer *bitBuffer) {
 
 void killTable(table *t) {
 
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i <= 255; i++) {
         bit_buffer_free(t[i].codes);
     }
     free(t);
