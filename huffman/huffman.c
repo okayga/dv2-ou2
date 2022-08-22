@@ -29,6 +29,8 @@ bool validateInput (FILE *file) {
             return false;
         }
     }
+
+    rewind(file);
     return true;
 }
 
@@ -67,13 +69,14 @@ int main(int argc, char *argv[]) {
     }
 
     freqtable *ft = frequencyCount(freq_file);
+    printFTable(ft);
     pqueue *pq = freqtableToPq(ft);
     node *trie = pqToTrie(pq);
     table *t = initiateTable();
 
     bit_buffer *empty_buffer = bit_buffer_empty();
+    printTrie(trie, 0);
     trieToTable(trie, t, empty_buffer);
-    bit_buffer_print(t[80].codes);
     bit_buffer_free(empty_buffer);
 
     if (strcmp(argv[1], "-encode") == 0) {

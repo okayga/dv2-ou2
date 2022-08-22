@@ -10,13 +10,12 @@ table *initiateTable () {
     for (int i = 0; i < 256; i++) {
         t[i].codes = bit_buffer_empty();
     }
-    
+
     return t;
 }
 
 void trieToTable (node *trie, table *t, bit_buffer *bitBuffer) {
 
-    // If the current node is a leaf, it contains a character
     if (leafNode(trie)) {
         int index = (char)trie->val;
         t[index].symbol = trie->val;
@@ -28,9 +27,14 @@ void trieToTable (node *trie, table *t, bit_buffer *bitBuffer) {
         bit_buffer_insert_bit(bitBuffer, 0);
         bit_buffer_insert_bit(secondBuffer, 1);
 
-        trieToTable(trie->left_child, t, bitBuffer);
-        trieToTable(trie->right_child, t, secondBuffer);
+
+        if (trie->left_child != NULL) {
+          trieToTable(trie->left_child, t, bitBuffer);
         }
+        if (trie->right_child != NULL) {
+          trieToTable(trie->right_child, t, secondBuffer);
+        }
+      }
 }
 
 void killTable(table *t) {
