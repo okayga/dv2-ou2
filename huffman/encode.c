@@ -12,12 +12,12 @@ void encode (table *t, FILE *text_file, FILE *output_file) {
     bit_buffer *output_buffer = bit_buffer_empty();
 
     // Add corresponding codes for each character in the text file to output buffer
-    while ((ch = fgetc(text_file)) != EOF) {
+    while (ch != EOF) {
         index = (int)ch;
-        printf("the size for the code for %c is %d\n", ch, bit_buffer_size(t[index].codes));
         for (int i = 0; i < bit_buffer_size(t[index].codes); i++) {
             bit_buffer_insert_bit(output_buffer, bit_buffer_inspect_bit(t[index].codes, i));
         }
+        ch = fgetc(text_file);
     }
 
     // Add end of transmission (4) to the end of the output buffer

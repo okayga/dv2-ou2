@@ -37,8 +37,7 @@ pqueue *freqtableToPq (freqtable *ft) {
         e->right_child = NULL;
         e->prio = ft[i].freq;
         e->val = ft[i].symbol;
-        printf("Value inserted into pq is %c and its freq is %i\n", e->val,
-        e->prio);
+
         pqueue_insert(pq, e);
     }
 
@@ -48,12 +47,4 @@ pqueue *freqtableToPq (freqtable *ft) {
 void freqtableKill(freqtable *ft) {
 
     free(ft);
-}
-
-void printFTable(freqtable *ft) {
-
-    for (int i = 0; i < 256; i++) {
-        printf("Row %d contains symbol %c and has frequency %d\n", i,
-        ft[i].symbol, ft[i].freq);
-    }
 }

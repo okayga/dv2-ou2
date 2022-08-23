@@ -26,16 +26,6 @@
 void usageHelp();
 
 /**
- * @brief Validates the inputted file by checking if every character
- * is a UTF-8 character.
- *
- * @param file - The file to be checked.
- * @return Returns true if the file is completely in UTF-8 characters.
- * If not, returns false.
- */
-bool validateInput (FILE *file);
-
-/**
  * @}
  */
 

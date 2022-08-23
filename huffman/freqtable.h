@@ -24,8 +24,6 @@ typedef struct {
     char symbol;
 } freqtable;
 
-void printFTable(freqtable *ft);
-
 /**
  * @brief Creates a frequency table where the frequency
  * of every UTF-8 character in a text file is calculated,
