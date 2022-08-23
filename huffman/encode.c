@@ -7,7 +7,7 @@
 
 void encode (table *t, FILE *text_file, FILE *output_file) {
 
-    char ch;
+    char ch = fgetc(text_file);
     int index;
     bit_buffer *output_buffer = bit_buffer_empty();
 
