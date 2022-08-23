@@ -20,19 +20,20 @@ void trieToTable (node *trie, table *t, bit_buffer *bitBuffer) {
         t[index].symbol = trie->val;
         t[index].codes = bitBuffer;
     }
-    /* The input buffer follows the left nodes recursively, and the
-    second buffer follows the right nodes. */
-    bit_buffer *secondBuffer = bit_buffer_copy(bitBuffer);
+    if (!leafNode(trie)) {
+        /* The input buffer follows the left nodes recursively, and the
+        second buffer follows the right nodes. */
+        bit_buffer *secondBuffer = bit_buffer_copy(bitBuffer);
 
-    bit_buffer_insert_bit(bitBuffer, 0);
-    bit_buffer_insert_bit(secondBuffer, 1);
+        bit_buffer_insert_bit(bitBuffer, 0);
+        bit_buffer_insert_bit(secondBuffer, 1);
 
-
-    if (trie->left_child != NULL) {
-        trieToTable(trie->left_child, t, bitBuffer);
-    }
-    if (trie->right_child != NULL) {
-        trieToTable(trie->right_child, t, secondBuffer);
+        if (trie->left_child != NULL) {
+            trieToTable(trie->left_child, t, bitBuffer);
+        }
+        if (trie->right_child != NULL) {
+            trieToTable(trie->right_child, t, secondBuffer);
+        }
     }
 }
 
