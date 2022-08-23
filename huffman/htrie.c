@@ -17,8 +17,7 @@ node *pqToTrie(pqueue *pq) {
       }
 
     while (pqueue_is_empty(pq) == false) {
-        node *first_node = malloc(sizeof(node));
-        first_node = pqueue_inspect_first(pq);
+        node *first_node = pqueue_inspect_first(pq);
         pqueue_delete_first(pq);
 
         // If pqueue is empty, the first node is the largest. Return it
@@ -26,23 +25,13 @@ node *pqToTrie(pqueue *pq) {
             return first_node;
         }
 
-        node *second_node = malloc(sizeof(node));
-        second_node = pqueue_inspect_first(pq);
+        node *second_node = pqueue_inspect_first(pq);
         pqueue_delete_first(pq);
-
-        /* If pqueue is empty after second_node has been removed from the pqueue,
-         that means the second node is the largest in the list. Make the
-         first node the child of the second and return the second node. (to
-         keep correct structure within the trie.)*/
-        if (pqueue_is_empty(pq)) {
-          second_node->left_child = first_node;
-          return second_node;
-        }
 
         trie = malloc(sizeof(node));
         trie->prio = first_node->prio+second_node->prio;
         // All parent nodes (non-leaf nodes) are given #
-        trie->val = '#';
+        trie->val = 0;
         trie->left_child = first_node;
         trie->right_child = second_node;
         pqueue_insert(pq, trie);
