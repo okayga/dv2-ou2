@@ -10,31 +10,28 @@ int lessThan(void *elem1, void *elem2) {
     return ((node *)elem1)->prio - ((node *)elem2)->prio;
 }
 
-freqtable *frequencyCount(FILE *freq_file) {
-
-    freqtable *ft = calloc(256, sizeof(freqtable));
+void frequencyCount(FILE *freq_file, freqtable *ft) {
 
     // Initiate the symbol array with every UTF-8 char
     for (int i = 0; i < 256; i++) {
-        ft[i].symbol = (char)i;
+        ft[i].symbol = i;
     }
 
-    char ch;
-    while ((ch = fgetc(freq_file)) != EOF) {
+    char ch = fgetc(freq_file);
+    while (ch != EOF) {
         ft[(int)ch].freq++;
+        ch = fgetc(freq_file);
     }
 
-    return ft;
+    return;
 }
 
 pqueue *freqtableToPq (freqtable *ft) {
 
     pqueue *pq = pqueue_empty(lessThan);
-
+  
     for (int i = 0; i < 256; i++) {
-        node *e = malloc(1*sizeof(node));
-        e->left_child = NULL;
-        e->right_child = NULL;
+        node *e = calloc(1, sizeof(node));
         e->prio = ft[i].freq;
         e->val = ft[i].symbol;
 

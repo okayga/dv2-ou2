@@ -32,37 +32,39 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    FILE *freq_file, *text_file, *output_file;
-    freq_file = fopen(argv[2], "r");
-    text_file = fopen(argv[3], "r");
-    output_file = fopen(argv[4], "w");
+    FILE *freq_file = fopen(argv[2], "r");
+    FILE *text_file = fopen(argv[3], "r");
+    FILE *output_file = fopen(argv[4], "w");
+    
+    freqtable *ft = calloc(256, sizeof(freqtable));
+    frequencyCount(freq_file, ft);
 
-    freqtable *ft = frequencyCount(freq_file);
     pqueue *pq = freqtableToPq(ft);
     node *trie = pqToTrie(pq);
-    table *t = initiateTable();
-
-    bit_buffer *empty_buffer = bit_buffer_empty();
-    printTrie(trie, 0);
-    trieToTable(trie, t, empty_buffer);
 
     if (strcmp(argv[1], "-encode") == 0) {
+        table *t = initiateTable();
+
+        // Make an empty bit buffer for the first iteration of trieToTable
+        bit_buffer *empty_buffer = bit_buffer_empty(); 
+        trieToTable(trie, t, empty_buffer);
+
         /* This has to be done before entering the encode function to be able to
         access argv[3] */
         fseek(text_file, 0L, SEEK_END);
         printf("%ld bytes read from %s.\n", ftell(text_file), argv[3]);
         rewind(text_file);
-
         encode(t, text_file, output_file);
-    } else {
-        decode(trie, text_file, output_file);
-    }
+        killTable(t);
+        } 
+        if (strcmp(argv[1], "-decode") == 0) {
+            decode(trie, text_file, output_file);
+        }
 
     freqtableKill(ft);
     pqueue_kill(pq);
     killTrie(trie);
-    killTable(t);
-
+    
     fclose(freq_file);
     fclose(text_file);
     fclose(output_file);

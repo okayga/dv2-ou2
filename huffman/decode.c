@@ -2,12 +2,13 @@
 
 void decode(node *trie, FILE *text_file, FILE *output_file) {
 
-    char ch = fgetc(text_file);
+    int ch = fgetc(text_file);
     bit_buffer *output_buffer = bit_buffer_empty();
-    bit_buffer_insert_byte(output_buffer, ch);
 
-    while ((ch = fgetc(text_file)) != EOF) {
+    while (ch != EOF) {
         bit_buffer_insert_byte(output_buffer, ch);
+
+        ch = fgetc(text_file);
     }
     
     // While output_buffer isn't empty, check if the current node is a leaf node
@@ -19,8 +20,7 @@ void decode(node *trie, FILE *text_file, FILE *output_file) {
         }
         if (bit_buffer_remove_bit(output_buffer) == 0) {
             pointerToTrie = pointerToTrie->left_child;
-        }
-        if (bit_buffer_remove_bit(output_buffer) == 1) {
+        } else{
             pointerToTrie = pointerToTrie->right_child;
         }
     }

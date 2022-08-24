@@ -21,7 +21,7 @@
 // each UTF-8 characters frequency in a text.
 typedef struct {
     int freq;
-    char symbol;
+    int symbol;
 } freqtable;
 
 /**
@@ -33,7 +33,7 @@ typedef struct {
  * @param freq_file - A pointer to the file to be analyzed.
  * @return freqtable* - A new frequency table.
  */
-freqtable *frequencyCount(FILE *freq_file);
+void frequencyCount(FILE *freq_file, freqtable *ft);
 
 /**
  * @brief Converts a frequency table to a priority queue. The

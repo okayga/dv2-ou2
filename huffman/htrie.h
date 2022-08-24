@@ -18,10 +18,12 @@
  */
 
 /**
- * @brief Structure for a huffman trie node.
+ * @brief The structure for a node used in the huffman trie. It contains
+ * an int val, which is the node's symbol, an int prio which is equivalent to its 
+ * frequency, and two node pointers to the node's left and right child.
  */
 typedef struct node {
-    char val;
+    int val;
     int prio;
     struct node *left_child;
     struct node *right_child;
@@ -30,7 +32,8 @@ typedef struct node {
 void printTrie(node *trie, int level);
 
 /**
- * @brief Converts a priority queue to a huffman trie.
+ * @brief Converts a priority queue to a huffman trie. The trie needs to 
+ * be recursively deallocated later with the killTrie function.
  *
  * @param pq - The priority queue.
  * @return node* - A pointer to the root node in the trie.

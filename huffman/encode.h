@@ -15,8 +15,8 @@
 
 /**
  * @brief Encodes a given .txt file into huffman coding based on
- * earlier frequency analysis, and writes the text in coded form
- * in an output file.
+ * frequency analysis of FILE0, and writes FILE1 in coded form
+ * in the output file FILE2.
  * 
  * @param ht - The huffman table.
  * @param text_file - A text file to be encoded.

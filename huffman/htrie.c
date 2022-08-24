@@ -1,3 +1,5 @@
+
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "htrie.h"
@@ -5,16 +7,6 @@
 #include "bit_buffer.h"
 
 node *pqToTrie(pqueue *pq) {
-
-    node *trie;
-
-    // If pqueue is empty from the start then return an empty node
-    if (pqueue_is_empty(pq)) {
-      trie = malloc(sizeof(node));
-      trie->prio = 0;
-      trie->val = 0;
-      return trie;
-      }
 
     while (pqueue_is_empty(pq) == false) {
         node *first_node = pqueue_inspect_first(pq);
@@ -24,27 +16,33 @@ node *pqToTrie(pqueue *pq) {
         if (pqueue_is_empty(pq)) {
             return first_node;
         }
-
         node *second_node = pqueue_inspect_first(pq);
         pqueue_delete_first(pq);
-
-        trie = malloc(sizeof(node));
+        
+        node *trie;
+        trie = calloc(1, sizeof(node));
         trie->prio = first_node->prio+second_node->prio;
         // All parent nodes (non-leaf nodes) are given #
-        trie->val = 0;
+        trie->val = -1;
         trie->left_child = first_node;
         trie->right_child = second_node;
         pqueue_insert(pq, trie);
     }
 
-    return trie;
+        // If pqueue is empty from the start then return an empty node
+    
+      node *trie;
+      trie = calloc(1, sizeof(node));
+      trie->prio = 0;
+      trie->val = -1;
+      return trie;
 }
 
 bool leafNode(node *n) {
 
-    if ((int)n->val >= 0 && (int)n->val < 256) {
+    if ( n->val >= 0 &&  n->val <= 255) {
         if (n->left_child == NULL && n->right_child == NULL) {
-        return true;
+          return true;
         }
     }
     return false;
@@ -53,14 +51,12 @@ bool leafNode(node *n) {
 void killTrie(node *trie) {
 
     if (leafNode(trie) == false) {
-        if (trie->left_child != NULL) {
         killTrie(trie->left_child);
-        }
-        if (trie->left_child != NULL) {
-          killTrie(trie->right_child);
-        }
+        killTrie(trie->right_child);
+    }
+        
     free(trie);
-	}
+	
 }
 
 void printTrie(node *trie, int level) {
