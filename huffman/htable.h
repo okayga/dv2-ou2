@@ -18,8 +18,7 @@
 
 /**
  * @brief A structure that keeps track of each UTF-8 character's corresponding
- * huffman code. It contains a bit buffer pointer, codes, and an int, symbol, 
- * that contains the symbol in int form.
+ * huffman code, that gets its codes from the trie.
  */
 typedef struct HuffTable {
     bit_buffer *codes;
@@ -27,8 +26,7 @@ typedef struct HuffTable {
 } table;
 
 /**
- * @brief Creates a huffman table. The table must later be deallocated
- * using the killTable function.
+ * @brief Creates a huffman table.
  *
  * @return table* - A pointer to the new huffman table.
  */

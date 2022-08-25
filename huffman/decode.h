@@ -14,12 +14,12 @@
  */
 
 /**
- * @brief Decodes a given .txt file into readable text based on
- * frequency analysis of (FILE0), and writes the text file (FILE1)
- * in decoded form in the output file (FILE2).
+ * @brief Decodes a given huffman coded .txt file, based on 
+ * frequency analysis of FILE0. The decoded text is given as a
+ * .txt file as output.
  * 
- * @param trie - The huffman trie (root node)
- * @param text_file - The text file to be decoded.
+ * @param trie - The huffman trie.
+ * @param text_file - A text file to be decoded.
  * @param output_file - The decoded text file.
  */
 void decode (node *trie, FILE *text_file, FILE *output_file);
