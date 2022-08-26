@@ -27,8 +27,6 @@ typedef struct node {
     struct node *right_child;
 } node;
 
-void printTrie(node *trie, int level);
-
 /**
  * @brief Converts a priority queue to a huffman trie.
  *

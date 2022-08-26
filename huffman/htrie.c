@@ -58,16 +58,3 @@ void killTrie(node *trie) {
     free(trie);
 	
 }
-
-void printTrie(node *trie, int level) {
-
-    printf("Node on level %d has prio %d and value %d\n", level, trie->prio,
-    (int)trie->val);
-
-    if (trie->left_child != NULL) {
-      printTrie(trie->left_child, level+1);
-    }
-    if (trie->right_child != NULL) {
-      printTrie(trie->right_child, level+1);
-    }
-}
