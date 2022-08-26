@@ -25,5 +25,6 @@ void decode(node *trie, FILE *text_file, FILE *output_file) {
         }
     }
 
+    bit_buffer_free(output_buffer);
     printf("File decoded succesfully.\n");
 }
