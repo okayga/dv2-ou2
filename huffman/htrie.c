@@ -21,7 +21,7 @@ node *pqToTrie(pqueue *pq) {
         
         node *trie;
         trie = calloc(1, sizeof(node));
-        trie->prio = first_node->prio+second_node->prio;
+        trie->prio = first_node->prio + second_node->prio;
         // All parent nodes (non-leaf nodes) are given #
         trie->val = -1;
         trie->left_child = first_node;

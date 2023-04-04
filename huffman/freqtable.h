@@ -12,13 +12,13 @@
  * and declares its functions.
  *
  * @author Maximilian Larsson - c20mln
- * @date 2022-08-21
+ * @date 2023-02-14
  *
  * @{
  */
 
-// A frequency table to construct the trie by calculating
-// each UTF-8 characters frequency in a text.
+/* A frequency table to construct the trie by calculating
+each UTF-8 characters frequency in a text. */
 typedef struct {
     int freq;
     int symbol;

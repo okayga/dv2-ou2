@@ -12,7 +12,7 @@
  * and declares its functions.
  *
  * @author Maximilian Larsson - c20mln
- * @date 2022-08-21
+ * @date 2023-02-14
  *
  * @{
  */

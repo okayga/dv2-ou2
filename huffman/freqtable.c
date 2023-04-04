@@ -17,7 +17,7 @@ void frequencyCount(FILE *freq_file, freqtable *ft) {
         ft[i].symbol = i;
     }
 
-    char ch = fgetc(freq_file);
+    int ch = fgetc(freq_file);
     while (ch != EOF) {
         ft[(int)ch].freq++;
         ch = fgetc(freq_file);
